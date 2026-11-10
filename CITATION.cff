@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "morphoAgent: an agentic workflow for cell morphology analysis with the researcher in the loop"
+type: software
+version: 0.1.0
+date-released: "2026-11-11"
+authors:
+  - family-names: "Kim"
+    given-names: "Geun-Woo D."
+repository-code: "https://github.com/myLabTechnician/morphoAgent"
+license: GPL-3.0-only
+keywords:
+  - cell morphology
+  - phase-contrast microscopy
+  - segmentation
+  - shape modes
+  - Model Context Protocol
+  - researcher in the loop
