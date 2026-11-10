@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>morphoagent review</title>
+<style>
+/*__BFM_CSS__*/
+</style>
+</head>
+<body>
+<div id="top">
+  <b>morphoagent</b>
+  <span class="tab" data-tab="1">1. Enhancement</span>
+  <span class="tab" data-tab="2">2. Segmentation settings</span>
+  <span class="tab" data-tab="3">3. Mask review</span>
+  <span class="tab" data-tab="4">4. Export</span>
+  <span class="tab" data-tab="5">5. Decisions</span>
+  <label class="small">Condition <select id="cond"></select></label>
+  <span id="progress" class="small mono"></span>
+  <span class="spacer"></span>
+  <button id="btnImport" title="Load a ui_state.json file">Import state</button>
+  <button id="btnExport" title="Download ui_state.json">Export state</button>
+  <input type="file" id="fileImport" accept=".json,application/json" hidden>
+  <span id="saveStatus" class="small"></span>
+</div>
+<div id="msg" class="small" hidden></div>
+<div id="page"></div>
+<script id="bfm-data" type="application/json">__BFM_DATA__</script>
+<script>
+/*__BFM_JS__*/
+</script>
+</body>
+</html>
