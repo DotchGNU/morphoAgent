@@ -1,0 +1,20 @@
+{
+  "mcpServers": {
+    "morphoagent-pipeline": {
+      "type": "stdio",
+      "command": "morphoagent-mcp",
+      "args": [],
+      "env": {
+        "PYTHONNOUSERSITE": "1"
+      }
+    },
+    "morphoagent-literature": {
+      "type": "stdio",
+      "command": "morphoagent-literature",
+      "args": [],
+      "env": {
+        "PYTHONNOUSERSITE": "1"
+      }
+    }
+  }
+}
