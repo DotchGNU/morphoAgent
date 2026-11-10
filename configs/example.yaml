@@ -1,0 +1,37 @@
+# Example configuration: only the keys that differ from configs/default.yaml.
+# Files are named like  <prefix><condition>_Image004<suffix>.jpg , e.g.
+#   exp01_20X_CTRL_Image004_ch00.jpg   ->  condition CTRL, field Image004
+#   exp01_20X_DRUG_A_Image010_ch00.jpg ->  condition DRUG_A, field Image010
+# Relative paths are resolved relative to this file.
+
+output_dir: /path/to/output
+input:
+  image_dir: /path/to/images
+  strip_prefix: "exp01_20X_"
+  strip_suffix: "_ch00"
+
+conditions:
+  order: [CTRL, DRUG_A]
+  reference: CTRL
+  colors: {CTRL: "#FFFFFF", DRUG_A: "#FF7F7F"}
+
+segment:
+  gpu: true
+
+select:
+  image_trim_fraction: 0.0          # e.g. 0.2 drops the 20% most atypical images per condition
+
+curate:
+  edits_csv: curation_edits.csv     # optional; filled in after reviewing 07_review/review_deck.pptx
+
+vampire:
+  src_path: /path/to/VAMPIRE_open/Source Code
+  python: /path/to/vampire-env/bin/python
+  k: [4]
+
+stats:
+  pixel_size_um: null               # set (micrometres per pixel) to add area_um2, or instead:
+  # pixel_calibration: {field_width_um: 1000.0, image_width_px: 2048, binning: 2}   # exact um/px = 1000 / 2048 / 2
+
+plot:
+  font_paths: []                    # e.g. [/path/to/arial.ttf] if Arial is not installed

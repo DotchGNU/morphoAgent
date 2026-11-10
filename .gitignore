@@ -1,0 +1,50 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+.ipynb_checkpoints/
+.env
+.env.*
+# local development record
+RUNLOG.md
+# never commit data or results
+*.tif
+*.tiff
+*.jpg
+*.jpeg
+*.png
+*.svg
+# figures for the documentation (README / docs) are tracked; run outputs stay ignored
+!docs/**/*.png
+!docs/**/*.svg
+*.pptx
+*.lif
+*.npz
+/data/
+output*/
+out*/
+results/
+/runs/
+/run_*/
+/agent/
+/proposals/
+/decisions/
+/snapshots/
+*_ui_state.json
+*_llm_cache.json
+# local example runs (generated, never committed)
+/examples/_*/
+
+# local agent client settings
+/.claude/settings.local.json
+
+# local render checks of draft figures
+/docs/figures/_render*/

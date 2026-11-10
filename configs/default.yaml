@@ -1,0 +1,227 @@
+# morphoagent default configuration.
+# Every key and value here is identical to the dataclass defaults in src/morphoagent/pipeline/config.py
+# (checked by tests/test_config.py). Copy only the keys you want to change into your own
+# config; see configs/example.yaml and docs/configuration.md.
+# Relative paths are resolved relative to the directory of the config file.
+
+output_dir: /path/to/output          # one sub-folder per step: 01_load ... 10_stats
+log_level: INFO                       # DEBUG | INFO | WARNING
+
+input:
+  image_dir: /path/to/images          # flat folder of single-channel bright-field images
+  extensions: [.jpg, .jpeg, .png, .tif, .tiff]
+  strip_prefix: ''                    # removed from the file stem before parsing (e.g. a date/instrument prefix)
+  strip_suffix: ''                    # removed from the end of the stem (e.g. a channel suffix such as _ch00)
+  name_regex: ^(?P<condition>.+)_(?P<field>Image\d+)$   # named groups 'condition' and 'field' are required
+  skip_max_at_or_below: 0             # images whose maximum pixel value is <= this are skipped (all-zero captures)
+
+conditions:
+  order: []                           # plotting / table order; unlisted conditions follow alphabetically
+  reference: null                     # reference condition for ratios and tests; null = first in order
+  colors: {}                          # condition -> box/bar fill colour, e.g. {CTRL: '#FFFFFF'}
+  default_color: '#FFFFFF'
+
+enhance:                              # steps 2 (preview) and 3 (apply); display only, never used for segmentation
+  preset: figure-default              # figure-default | tone-unsharp | clahe | none
+  samples: null                       # image ids for step 2; null = first image of each of the first N conditions
+  max_sample_conditions: 4
+  preview_presets: [figure-default, tone-unsharp, clahe, none]
+  metrics_width_px: 448               # images are Lanczos-resized to this width before the preview metrics
+  sheet_panel_width_px: 480           # panel width in the contact sheet
+  edge_top_fraction: 0.02             # edge strength = mean of the strongest 2% Sobel responses / (p99 - p1)
+  noise_sigma_px: 1.5                 # flat noise = std(img - Gaussian(1.5 px)) ...
+  flat_gradient_sigma_px: 3.0         # ... over pixels with the lowest Gaussian(3 px) gradient ...
+  flat_fraction: 0.3                  # ... (lowest 30%)
+  figure_default:
+    output_size: [960, 720]           # [width, height] after Lanczos reduction; null keeps the size
+    median_target: 125.0              # grey level the image median is shifted to
+    kernel_path: null                 # null = packaged fitted kernel (13 ring weights, radius 12 px)
+    tone_lut_path: null               # null = packaged fitted tone curve ([knots, values])
+  tone_unsharp:
+    source_percentiles: [1.0, 50.0, 95.0, 99.0]   # the image's own percentiles ...
+    target_values: [62.0, 179.0, 235.0, 255.0]    # ... mapped to these grey levels (0->0, 255->255)
+    sigma_px: 4.0                     # Gaussian sigma of the unsharp mask (px of the input image)
+    amount: null                      # fixed unsharp amount; null = choose on amount_grid
+    amount_grid: [0.0, 8.0, 0.1]      # [start, stop, step]
+    display_height_px: 503            # edge metric measured after resizing to this height
+    reference_edge_metric: 3.5468     # edge metric of a reference figure panel
+    target_fraction: 1.2              # target = base + 1.2 * (reference - base)
+  clahe:
+    clip_limit: 0.01
+    kernel_size: null
+    nbins: 256
+
+segment:                              # steps 4 and 5 (Cellpose-SAM)
+  model: cpsam
+  gpu: true                           # falls back to CPU with a warning when CUDA is unavailable
+  flow_threshold: 0.8
+  cellprob_threshold: -1.0
+  diameter: null                      # null = Cellpose default; otherwise px of the DOWNSCALED image
+  downscale: 0.125                    # raw grey image is shrunk by this factor before Cellpose
+  label_compression: zlib             # TIFF compression of label images
+  tune:                               # step 4 grid; the step-5 setting is always included and flagged DEFAULT
+    samples: null
+    max_sample_conditions: 4
+    flow_threshold: [0.8]
+    cellprob_threshold: [-1.0, -2.0, -3.0, -4.0]
+    diameter: [null, 60.0, 100.0]
+    downscale: [0.125, 0.25]
+    panel_width_px: 480
+    outline_color: [255, 40, 40]
+
+measure:                              # steps 5 and 6: where shape features are measured
+  shape_grid: full                    # full | segmentation: axis features (major/minor axis, aspect ratio,
+                                      #   eccentricity) on the segmentation grid (segment.downscale); objects
+                                      #   changed after segmentation stay full resolution (docs/pipeline.md)
+
+select:                               # step 6, applied in this order:
+  largest_piece: true                 # 1) per label keep only the largest connected piece
+  connectivity: 8                     #    pixel connectivity for pieces (4 or 8)
+  image_trim_fraction: 0.0            # 2) drop this fraction of the most atypical images per condition (0 = off)
+  image_trim_min_images: 2            #    never keep fewer images than this per condition
+  image_trim_features: [form_factor, solidity, eccentricity, aspect_ratio, extent]
+  image_trim_log_area: true           #    also use the median log10 area
+  area_min_px: 2000.0                 # 3) drop objects smaller than this (full-resolution px^2)
+  frame_contact_px: 24.0              # 4) drop objects with more than this many pixels on the image frame
+  field_table: null                   # CSV (image[, label_file][, condition]): analyse only these fields, optionally
+                                      #   with these label files instead of step 5 (docs/pipeline.md, "Field table")
+
+review:                               # step 7
+  background: enhanced                # enhanced (step 3 output, resized) | raw
+  kept_color: [255, 40, 40]
+  kept_linewidth_px: 6
+  frame_contact_color: [255, 150, 150]
+  frame_contact_linewidth_px: 3
+  dash_px: 22                         # dash period of the frame-contact outline
+  font_path: null                     # TrueType font for numbers; null = DejaVu Sans Bold (bundled with matplotlib)
+  font_scale: 0.22                    # font size = clip(0.22 * sqrt(area), min, max) px
+  font_min_px: 38
+  font_max_px: 78
+  text_color: [255, 255, 255]
+  stroke_color: [0, 0, 0]
+  stroke_min_px: 3
+  stroke_divisor: 12                  # stroke width = max(stroke_min_px, font size // 12)
+  slide_image_width_px: 1600          # images are JPEG-compressed at this width inside the deck
+  jpeg_quality: 90
+
+curate:                               # step 8 (optional)
+  edits_csv: null                     # CSV with columns operation, image, labels, target
+  connectivity: 8                     # a merged object must be one connected component
+
+vampire:                              # step 9
+  src_path: /path/to/VAMPIRE_open/Source Code   # checkout of github.com/kukionfr/VAMPIRE_open (tested at cd8ac36)
+  python: python                      # interpreter of the VAMPIRE environment
+  n_coordinates: 50                   # contour points per object
+  k: [4]                              # number(s) of shape modes; one model per K
+  renumber_by: aspect_ratio           # display modes 1..K by ascending mean aspect ratio | none
+  elbow:
+    k_min: 2
+    k_max: 20
+  elbow_kmeans:                       # equal to the k-means settings hard-coded in VAMPIRE
+    init: k-means++
+    n_init: 3
+    max_iter: 300
+    random_state: 9
+  mode_colors: ['#98D8FE', '#6DB0E0', '#FB9AF4', '#F97374', '#B7E4A7', '#F9D976', '#C9B8E8', '#FACAA0', '#9AD0C2', '#D9D9D9']
+  contour_edge_color: '#3A4650'
+
+stats:                                # step 10, object level only
+  metrics: [area_px, aspect_ratio, form_factor, solidity, eccentricity, extent, perimeter_px]
+  pixel_size_um: null                 # if set, area_um2 = area_px * pixel_size_um^2 is added
+  pixel_calibration:                  # alternative to pixel_size_um (set one, not both):
+    field_width_um: null              #   pixel size = field_width_um / image_width_px / binning (exact, not rounded)
+    image_width_px: null              #   sensor / full-resolution width the field width refers to
+    binning: 1.0                      #   divisor between that width and the analysed images
+  significance_from: p                # stars from p (uncorrected) or q (Benjamini-Hochberg)
+  star_thresholds: [0.05, 0.01, 0.001]
+  box:
+    box_width: 0.6
+    whisker_iqr: 1.5
+    line_width_pt: 0.25               # all lines except median and mean marker
+    median_line_width_pt: 1.4         # median line and mean 'x'
+    mean_marker_size: 5.0
+    dot_size: 6.0
+    dot_alpha: 0.45
+    jitter_halfwidth: 0.2
+    jitter_seed: 20261105
+    axis_height_in: 3.0
+    width_per_box_in: 0.55
+    y_top: whisker                    # axis top = first tick above the highest upper whisker | data maximum
+  shannon:
+    enabled: false
+    n_boot: 1000
+    seed: 20261105
+    ci: 95.0
+
+plot:
+  dpi: 300
+  font_family: Arial
+  font_paths: []                      # extra .ttf files to register (e.g. Arial when not installed system-wide)
+  font_size_pt: 8.0
+
+ui:                                   # browser helper tools: `morphoagent ui build` and `morphoagent ui serve` (docs/ui.md)
+  max_width: 1280                     # field images and label maps are embedded at most this wide (px); larger = sharper but bigger file
+  jpeg_quality: 85                    # JPEG quality of embedded images
+  preview_width_px: 960               # width of the enhancement / segmentation previews (tabs 1-2)
+  median_target_grid: [105.0, 115.0, 125.0, 135.0, 145.0]   # figure-default variants precomputed for tab 1
+  html_path: null                     # `ui build` output; null = <output_dir>/ui/review.html
+  host: 127.0.0.1                     # `ui serve` bind address; a non-loopback address REQUIRES a token
+  port: 8765
+  token_env: MORPHOAGENT_UI_TOKEN         # name of the environment variable holding the shared access token
+  cors_origins: []                    # origins allowed to call the API from another page; [] = CORS disabled
+  state_file: null                    # autosave of `ui serve`; null = <config stem>_ui_state.json next to the config
+  max_request_bytes: 20000000         # largest accepted request body
+  median_target_range: [60.0, 200.0, 1.0]     # live slider [min, max, step] (serve mode)
+  clahe_clip_range: [0.001, 0.05, 0.001]
+  unsharp_amount_range: [0.0, 8.0, 0.1]
+  card_table_max_rows: 8              # Decisions tab: option table rows shown (the rest is counted)
+  card_table_max_columns: 6           # Decisions tab: columns shown before a "more columns" expander
+  llm:                                # optional assistant; images and tables LEAVE THE MACHINE when enabled
+    enabled: false
+    provider: generic-json            # generic-json | chat-completions | mock | package.module:function
+    endpoint: null                    # URL of the LLM endpoint
+    model: null                       # model name passed to the endpoint
+    api_key_env: MORPHOAGENT_LLM_API_KEY  # name of the environment variable holding the API key (never stored in files)
+    timeout_s: 60.0
+    max_requests_per_minute: 6        # requests beyond this are refused (HTTP 429); there are no automatic bulk calls
+    image_width_px: 1024              # the numbered overlay is downscaled to this width before sending
+    jpeg_quality: 85
+    max_objects: 400                  # object-table rows sent per field
+    cache_file: null                  # responses cache; null = <config stem>_llm_cache.json next to the config
+
+agent:                                # tools served to agents by `morphoagent-mcp` (docs/mcp.md)
+  output_subdir: agent                # tool outputs go to <output_dir>/agent/<tool>_<parameter hash>/
+  records_dir: null                   # proposals/, decisions/, snapshots/ (docs/protocol.md); null = <output_dir>/<output_subdir>/records
+  require_decisions: true             # stage tools refuse to run while a proposal of an earlier stage is undecided
+  thumbnail_width_px: 360             # width of the figure thumbnails on decision cards (px)
+  cut:                                # `cut_distributions`: candidate cut-offs = factor x current select value
+    area_min_factors: [0.25, 0.5, 1.0, 1.5, 2.0]        # x select.area_min_px
+    frame_contact_factors: [0.0, 0.5, 1.0, 2.0, 4.0]    # x select.frame_contact_px
+    histogram_bins: 60                # bins of the log10(area) and frame-contact histograms
+  report:                             # `morphoagent report`: slide deck + Markdown from snapshots
+    prefix: morphoagent               # file name <prefix>_report_<YYMMDD>_c<N>.pptx / .md
+    max_table_rows: 12                # option rows shown in the slide table (the rest are counted in a note)
+    max_number_columns: 12            # option `numbers` keys written as columns to the Markdown report
+    max_table_columns: 6              # of those, at most this many numeric columns on a slide (rest: Markdown only)
+    font_family: Arial                # slide text font
+    redact_paths: true                # slides / Markdown show absolute paths as <path>/<name> or config-relative
+                                      #   (run manifests and note.json keep the full paths)
+
+literature:                           # `morphoagent-literature`: PubMed E-utilities + Europe PMC (docs/literature.md)
+  tool_name: morphoagent              # sent to NCBI as `tool`
+  ncbi_email: ''                      # sent to NCBI as `email` only when set (or set the variable below)
+  ncbi_email_env: MORPHOAGENT_NCBI_EMAIL      # environment variable read when ncbi_email is empty
+  ncbi_api_key_env: MORPHOAGENT_NCBI_API_KEY  # environment variable holding an NCBI API key (optional)
+  eutils_url: https://eutils.ncbi.nlm.nih.gov/entrez/eutils
+  europepmc_url: https://www.ebi.ac.uk/europepmc/webservices/rest
+  ncbi_requests_per_second: null      # null = 3 without an API key, 10 with one (NCBI limits); never above those
+  europepmc_requests_per_second: 5.0
+  timeout_s: 20.0                     # per request
+  max_retries: 3                      # on HTTP 429 / 5xx, timeouts and connection errors
+  backoff_s: 1.0                      # wait backoff_s x 2^attempt (or Retry-After) between retries
+  cache_dir: null                     # response cache; null = the user cache folder (never the repository)
+  cache_ttl_days: 30.0                # cached responses older than this are fetched again (0 = never reuse)
+  offline: false                      # true = answer from the cache only; never touch the network
+  max_results: 50                     # upper bound of search_literature max_results
+  title_match_threshold: 0.9          # verify_citation: minimum title similarity (0-1) to accept a title
+  methods_max_paragraphs: 200         # fetch_methods_text: paragraphs returned at most

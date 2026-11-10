@@ -1,0 +1,78 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "morphoagent"
+version = "0.1.0"
+description = "An agentic workflow for bright-field cell morphology analysis: image calibration, Cellpose-SAM segmentation, rule-based selection, review, curation, VAMPIRE shape modes and object-level statistics, with the researcher in the loop."
+readme = "README.md"
+requires-python = ">=3.10"
+license = "GPL-3.0-only"
+license-files = ["LICENSE"]
+authors = [{ name = "Geun-Woo D. Kim" }]
+maintainers = [{ name = "Geun-Woo D. Kim" }]
+keywords = ["cell morphology", "phase-contrast microscopy", "segmentation", "shape modes", "Model Context Protocol"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Bio-Informatics",
+    "Topic :: Scientific/Engineering :: Image Processing",
+]
+dependencies = [
+    "pydantic>=2.5",
+    "numpy>=1.24",
+    "scipy>=1.10",
+    "pandas>=2.0",
+    "Pillow>=10.1",
+    "scikit-image>=0.21",
+    "matplotlib>=3.7",
+    "tifffile>=2023.1",
+    "PyYAML>=6.0",
+    "tqdm>=4.60",
+    "python-pptx>=0.6.21",
+]
+
+[project.optional-dependencies]
+segment = ["cellpose>=4.0"]
+mcp = ["mcp>=2.3,<3"]   # MCPServer API of the 2.x SDK
+dev = ["pytest>=7", "ruff>=0.4"]
+
+[project.urls]
+Homepage = "https://github.com/myLabTechnician/morphoAgent"
+Documentation = "https://github.com/myLabTechnician/morphoAgent/tree/main/docs"
+Issues = "https://github.com/myLabTechnician/morphoAgent/issues"
+Changelog = "https://github.com/myLabTechnician/morphoAgent/blob/main/CHANGELOG.md"
+
+[project.scripts]
+morphoagent = "morphoagent.pipeline.cli:main"
+morphoagent-mcp = "morphoagent.mcp.pipeline_server:main"
+morphoagent-literature = "morphoagent.mcp.literature_server:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"morphoagent.pipeline" = ["data/*.npy", "ui/static/*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-p no:cacheprovider"
+
+[tool.ruff]
+line-length = 130
+target-version = "py310"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "NPY", "C4", "SIM"]
+ignore = ["SIM108"]
+
+[tool.ruff.lint.per-file-ignores]
+# executed by the (Python 3.8) VAMPIRE interpreter: keep 3.8-compatible idioms
+"src/morphoagent/pipeline/vampire_runner.py" = ["UP", "B905"]
