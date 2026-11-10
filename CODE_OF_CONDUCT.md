@@ -11,7 +11,7 @@ Harassment, personal attacks and publishing others' private information are not 
 ## Reporting
 
 Report unacceptable behaviour privately to the project maintainers through the contact options of the
-[repository owner](https://github.com/myLabTechnician). All reports are reviewed promptly and handled
+[repository owner](https://github.com/DotchGNU). All reports are reviewed promptly and handled
 confidentially. Maintainers who do not follow the code of conduct may face consequences determined by
 the other project maintainers.
 

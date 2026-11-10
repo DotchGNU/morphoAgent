@@ -81,4 +81,4 @@ First public release.
 * License GPL-3.0-only; `CITATION.cff`, contributing guide, code of conduct, issue and pull request
   templates.
 
-[0.1.0]: https://github.com/myLabTechnician/morphoAgent/releases/tag/v0.1.0
+[0.1.0]: https://github.com/DotchGNU/morphoAgent/releases/tag/v0.1.0

@@ -44,10 +44,10 @@ mcp = ["mcp>=2.3,<3"]   # MCPServer API of the 2.x SDK
 dev = ["pytest>=7", "ruff>=0.4"]
 
 [project.urls]
-Homepage = "https://github.com/myLabTechnician/morphoAgent"
-Documentation = "https://github.com/myLabTechnician/morphoAgent/tree/main/docs"
-Issues = "https://github.com/myLabTechnician/morphoAgent/issues"
-Changelog = "https://github.com/myLabTechnician/morphoAgent/blob/main/CHANGELOG.md"
+Homepage = "https://github.com/DotchGNU/morphoAgent"
+Documentation = "https://github.com/DotchGNU/morphoAgent/tree/main/docs"
+Issues = "https://github.com/DotchGNU/morphoAgent/issues"
+Changelog = "https://github.com/DotchGNU/morphoAgent/blob/main/CHANGELOG.md"
 
 [project.scripts]
 morphoagent = "morphoagent.pipeline.cli:main"

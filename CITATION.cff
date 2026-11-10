@@ -7,7 +7,7 @@ date-released: "2026-11-11"
 authors:
   - family-names: "Kim"
     given-names: "Geun-Woo D."
-repository-code: "https://github.com/myLabTechnician/morphoAgent"
+repository-code: "https://github.com/DotchGNU/morphoAgent"
 license: GPL-3.0-only
 keywords:
   - cell morphology

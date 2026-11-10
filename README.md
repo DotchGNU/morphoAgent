@@ -1,6 +1,6 @@
 # morphoAgent
 
-[![CI](https://github.com/myLabTechnician/morphoAgent/actions/workflows/ci.yml/badge.svg)](https://github.com/myLabTechnician/morphoAgent/actions/workflows/ci.yml)
+[![CI](https://github.com/DotchGNU/morphoAgent/actions/workflows/ci.yml/badge.svg)](https://github.com/DotchGNU/morphoAgent/actions/workflows/ci.yml)
 [![License: GPL-3.0](https://img.shields.io/badge/license-GPL--3.0-blue.svg)](LICENSE)
 [![Python >= 3.10](https://img.shields.io/badge/python-%3E%3D3.10-blue.svg)](pyproject.toml)
 
@@ -96,7 +96,7 @@ servers) and a separate **VAMPIRE environment** (step 9 only).
 ### Main environment
 
 ```bash
-git clone https://github.com/myLabTechnician/morphoAgent.git morphoAgent && cd morphoAgent
+git clone https://github.com/DotchGNU/morphoAgent.git morphoAgent && cd morphoAgent
 python -m venv .venv && source .venv/bin/activate      # or conda / mamba, Python >= 3.10
 pip install -e ".[segment,mcp,dev]"                    # Cellpose (steps 4-5), MCP servers, pytest + ruff
 ```
