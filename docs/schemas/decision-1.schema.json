@@ -1,0 +1,86 @@
+{
+  "additionalProperties": false,
+  "description": "Schema ``morphoagent-decision/1``.",
+  "properties": {
+    "schema": {
+      "const": "morphoagent-decision/1",
+      "default": "morphoagent-decision/1",
+      "title": "Schema",
+      "type": "string"
+    },
+    "proposal_id": {
+      "pattern": "^(?P<stage>[a-z]+)_(?P<time>\\d{8}T\\d{6}Z)_(?P<token>[0-9a-f]{6})$",
+      "title": "Proposal Id",
+      "type": "string"
+    },
+    "stage": {
+      "enum": [
+        "consult",
+        "contrast",
+        "segment",
+        "cut",
+        "cluster",
+        "literature"
+      ],
+      "title": "Stage",
+      "type": "string"
+    },
+    "choice": {
+      "description": "Chosen option id, or 'rejected'",
+      "title": "Choice",
+      "type": "string"
+    },
+    "comment": {
+      "default": "",
+      "maxLength": 5000,
+      "title": "Comment",
+      "type": "string"
+    },
+    "decided_utc": {
+      "title": "Decided Utc",
+      "type": "string"
+    },
+    "proposal_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Proposal Sha256",
+      "type": "string"
+    },
+    "source": {
+      "default": "api",
+      "enum": [
+        "review-ui",
+        "review-ui-download",
+        "api"
+      ],
+      "title": "Source",
+      "type": "string"
+    },
+    "snapshot": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Snapshot folder relative to the records folder",
+      "title": "Snapshot"
+    },
+    "morphoagent_version": {
+      "default": "0.1.0",
+      "title": "Morphoagent Version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "proposal_id",
+    "stage",
+    "choice",
+    "decided_utc",
+    "proposal_sha256"
+  ],
+  "title": "Decision",
+  "type": "object"
+}

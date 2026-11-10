@@ -1,0 +1,324 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "description": "One piece of evidence behind the recommendation (a plain string is accepted as ``text``).",
+      "properties": {
+        "text": {
+          "maxLength": 2000,
+          "minLength": 1,
+          "title": "Text",
+          "type": "string"
+        },
+        "path": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "File the statement was read from",
+          "title": "Path"
+        },
+        "tool": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Tool whose output the statement quotes",
+          "title": "Tool"
+        },
+        "references": {
+          "items": {
+            "type": "string"
+          },
+          "title": "References",
+          "type": "array"
+        }
+      },
+      "required": [
+        "text"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "Option": {
+      "additionalProperties": false,
+      "description": "An option as stored: ``figures`` are paths relative to the ``proposals`` folder.",
+      "properties": {
+        "id": {
+          "description": "Short option id, unique within the proposal (not 'rejected')",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{0,39}$",
+          "title": "Id",
+          "type": "string"
+        },
+        "label": {
+          "description": "One-line label shown on the card",
+          "maxLength": 200,
+          "minLength": 1,
+          "title": "Label",
+          "type": "string"
+        },
+        "description": {
+          "default": "",
+          "description": "Optional longer text",
+          "maxLength": 2000,
+          "title": "Description",
+          "type": "string"
+        },
+        "figures": {
+          "description": "PNG/JPEG figure files. '<stem>.svg' and 'source_<stem>.csv' next to a figure are copied with it",
+          "items": {
+            "type": "string"
+          },
+          "title": "Figures",
+          "type": "array"
+        },
+        "table": {
+          "description": "Rows (column -> value) shown under the figures",
+          "items": {
+            "additionalProperties": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "type": "object"
+          },
+          "maxItems": 500,
+          "title": "Table",
+          "type": "array"
+        },
+        "numbers": {
+          "additionalProperties": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "integer"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "description": "Key numbers of this option (name -> value)",
+          "title": "Numbers",
+          "type": "object"
+        },
+        "references": {
+          "description": "'PMID:<digits>' or 'doi:10.x/...' strings",
+          "items": {
+            "type": "string"
+          },
+          "title": "References",
+          "type": "array"
+        },
+        "config_changes": {
+          "additionalProperties": true,
+          "description": "Dotted configuration keys and the values to write when this option is chosen, e.g. {'select.area_min_px': 1500}",
+          "title": "Config Changes",
+          "type": "object"
+        },
+        "figure_origins": {
+          "description": "Paths the figures were copied from",
+          "items": {
+            "type": "string"
+          },
+          "title": "Figure Origins",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "label"
+      ],
+      "title": "Option",
+      "type": "object"
+    },
+    "Provenance": {
+      "additionalProperties": false,
+      "description": "Where the candidates came from (tool, parameters, result folder).",
+      "properties": {
+        "tool": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Tool"
+        },
+        "parameters": {
+          "additionalProperties": true,
+          "title": "Parameters",
+          "type": "object"
+        },
+        "run_dir": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Run Dir"
+        },
+        "manifest": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Manifest"
+        }
+      },
+      "title": "Provenance",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Schema ``morphoagent-proposal/1``.",
+  "properties": {
+    "schema": {
+      "const": "morphoagent-proposal/1",
+      "default": "morphoagent-proposal/1",
+      "title": "Schema",
+      "type": "string"
+    },
+    "proposal_id": {
+      "pattern": "^(?P<stage>[a-z]+)_(?P<time>\\d{8}T\\d{6}Z)_(?P<token>[0-9a-f]{6})$",
+      "title": "Proposal Id",
+      "type": "string"
+    },
+    "stage": {
+      "enum": [
+        "consult",
+        "contrast",
+        "segment",
+        "cut",
+        "cluster",
+        "literature"
+      ],
+      "title": "Stage",
+      "type": "string"
+    },
+    "title": {
+      "maxLength": 200,
+      "minLength": 1,
+      "title": "Title",
+      "type": "string"
+    },
+    "created_utc": {
+      "title": "Created Utc",
+      "type": "string"
+    },
+    "rationale": {
+      "default": "",
+      "maxLength": 5000,
+      "title": "Rationale",
+      "type": "string"
+    },
+    "recommended": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Recommended"
+    },
+    "options": {
+      "items": {
+        "$ref": "#/$defs/Option"
+      },
+      "maxItems": 50,
+      "minItems": 1,
+      "title": "Options",
+      "type": "array"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "title": "Evidence",
+      "type": "array"
+    },
+    "provenance": {
+      "$ref": "#/$defs/Provenance"
+    },
+    "main_figure": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Relative path of the figure used for snapshots",
+      "title": "Main Figure"
+    },
+    "figure_state": {
+      "additionalProperties": true,
+      "description": "Figure settings copied to state.json",
+      "title": "Figure State",
+      "type": "object"
+    },
+    "morphoagent_version": {
+      "default": "0.1.0",
+      "title": "Morphoagent Version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "proposal_id",
+    "stage",
+    "title",
+    "created_utc",
+    "options"
+  ],
+  "title": "Proposal",
+  "type": "object"
+}
