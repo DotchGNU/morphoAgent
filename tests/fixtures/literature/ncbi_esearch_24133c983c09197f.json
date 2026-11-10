@@ -1,0 +1,16 @@
+{
+ "schema": "morphoagent-http-cache/1",
+ "service": "ncbi",
+ "endpoint": "esearch.fcgi",
+ "params": {
+  "db": "pubmed",
+  "retmax": "5",
+  "retmode": "json",
+  "sort": "relevance",
+  "term": "10.9999/morphoagent-nonexistent-0001[doi]"
+ },
+ "status": 200,
+ "content_type": "application/json; charset=UTF-8",
+ "fetched_utc": "2026-11-07T04:32:24+00:00",
+ "body": "{\"header\":{\"type\":\"esearch\",\"version\":\"0.3\"},\"esearchresult\":{\"count\":\"0\",\"retmax\":\"0\",\"retstart\":\"0\",\"idlist\":[],\"translationset\":[],\"querytranslation\":\"10.9999/morphoagent-nonexistent-0001[doi]\",\"errorlist\":{\"phrasesnotfound\":[\"morphoagent-nonexistent-0001\"],\"fieldsnotfound\":[]},\"warninglist\":{\"phrasesignored\":[],\"quotedphrasesnotfound\":[],\"outputmessages\":[\"No items found.\"]}}}\n"
+}

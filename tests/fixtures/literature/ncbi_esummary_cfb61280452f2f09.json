@@ -1,0 +1,14 @@
+{
+ "schema": "morphoagent-http-cache/1",
+ "service": "ncbi",
+ "endpoint": "esummary.fcgi",
+ "params": {
+  "db": "pubmed",
+  "id": "33349649",
+  "retmode": "json"
+ },
+ "status": 200,
+ "content_type": "application/json; charset=UTF-8",
+ "fetched_utc": "2026-11-07T04:32:22+00:00",
+ "body": "{\"header\": {\"type\": \"esummary\", \"version\": \"0.3\"}, \"result\": {\"uids\": [\"33349649\"], \"33349649\": {\"uid\": \"33349649\", \"pubdate\": \"2020 Dec 21\", \"epubdate\": \"2020 Dec 21\", \"source\": \"Sci Rep\", \"authors\": [{\"name\": \"Rosenberger K\"}, {\"name\": \"Simmler M\"}, {\"name\": \"Nawroth C\"}, {\"name\": \"Langbein J\"}, {\"name\": \"Keil N\"}], \"title\": \"Goats work for food in a contrafreeloading task.\", \"articleids\": [{\"idtype\": \"pubmed\", \"value\": \"33349649\"}, {\"idtype\": \"pmc\", \"value\": \"PMC7752918\"}, {\"idtype\": \"doi\", \"value\": \"10.1038/s41598-020-78931-w\"}], \"fulljournalname\": \"Scientific reports\"}}}"
+}

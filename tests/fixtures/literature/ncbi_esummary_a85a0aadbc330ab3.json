@@ -1,0 +1,14 @@
+{
+ "schema": "morphoagent-http-cache/1",
+ "service": "ncbi",
+ "endpoint": "esummary.fcgi",
+ "params": {
+  "db": "pubmed",
+  "id": "99999999",
+  "retmode": "json"
+ },
+ "status": 200,
+ "content_type": "application/json; charset=UTF-8",
+ "fetched_utc": "2026-11-07T04:32:23+00:00",
+ "body": "{\"header\": {\"type\": \"esummary\", \"version\": \"0.3\"}, \"result\": {\"uids\": [\"99999999\"], \"99999999\": {\"uid\": \"99999999\", \"error\": \"cannot get document summary\"}}}"
+}

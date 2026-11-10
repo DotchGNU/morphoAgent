@@ -1,0 +1,16 @@
+{
+ "schema": "morphoagent-http-cache/1",
+ "service": "ncbi",
+ "endpoint": "esearch.fcgi",
+ "params": {
+  "db": "pubmed",
+  "retmax": "5",
+  "retmode": "json",
+  "sort": "relevance",
+  "term": "10.1038/s41596-020-00432-x[doi]"
+ },
+ "status": 200,
+ "content_type": "application/json; charset=UTF-8",
+ "fetched_utc": "2026-11-07T04:32:22+00:00",
+ "body": "{\"header\":{\"type\":\"esearch\",\"version\":\"0.3\"},\"esearchresult\":{\"count\":\"1\",\"retmax\":\"1\",\"retstart\":\"0\",\"idlist\":[\"33424024\"],\"translationset\":[],\"querytranslation\":\"\\\"10 1038 s41596 020 00432 x\\\"[Publisher ID]\"}}\n"
+}

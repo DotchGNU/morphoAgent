@@ -1,0 +1,14 @@
+{
+ "schema": "morphoagent-http-cache/1",
+ "service": "ncbi",
+ "endpoint": "efetch.fcgi",
+ "params": {
+  "db": "pubmed",
+  "id": "99999999",
+  "retmode": "xml"
+ },
+ "status": 200,
+ "content_type": "text/xml; charset=UTF-8",
+ "fetched_utc": "2026-11-07T04:32:21+00:00",
+ "body": "<PubmedArticleSet />"
+}

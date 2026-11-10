@@ -1,0 +1,14 @@
+{
+ "schema": "morphoagent-http-cache/1",
+ "service": "ncbi",
+ "endpoint": "esummary.fcgi",
+ "params": {
+  "db": "pubmed",
+  "id": "33424024",
+  "retmode": "json"
+ },
+ "status": 200,
+ "content_type": "application/json; charset=UTF-8",
+ "fetched_utc": "2026-11-07T04:32:19+00:00",
+ "body": "{\"header\": {\"type\": \"esummary\", \"version\": \"0.3\"}, \"result\": {\"uids\": [\"33424024\"], \"33424024\": {\"uid\": \"33424024\", \"pubdate\": \"2021 Feb\", \"epubdate\": \"2021 Jan 11\", \"source\": \"Nat Protoc\", \"authors\": [{\"name\": \"Phillip JM\"}, {\"name\": \"Han KS\"}, {\"name\": \"Chen WC\"}, {\"name\": \"Wirtz D\"}, {\"name\": \"Wu PH\"}], \"title\": \"A robust unsupervised machine-learning method to quantify the morphological heterogeneity of cells and nuclei.\", \"articleids\": [{\"idtype\": \"pubmed\", \"value\": \"33424024\"}, {\"idtype\": \"pmc\", \"value\": \"PMC8167883\"}, {\"idtype\": \"doi\", \"value\": \"10.1038/s41596-020-00432-x\"}], \"fulljournalname\": \"Nature protocols\"}}}"
+}

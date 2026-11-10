@@ -1,0 +1,15 @@
+{
+ "schema": "morphoagent-http-cache/1",
+ "service": "europepmc",
+ "endpoint": "search",
+ "params": {
+  "format": "json",
+  "pageSize": "5",
+  "query": "DOI:\"10.9999/morphoagent-nonexistent-0001\"",
+  "resultType": "lite"
+ },
+ "status": 200,
+ "content_type": "application/json;charset=UTF-8",
+ "fetched_utc": "2026-11-07T04:32:25+00:00",
+ "body": "{\"hitCount\": 0, \"resultList\": {\"result\": []}}"
+}

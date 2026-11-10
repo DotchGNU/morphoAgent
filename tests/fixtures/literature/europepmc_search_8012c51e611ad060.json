@@ -1,0 +1,15 @@
+{
+ "schema": "morphoagent-http-cache/1",
+ "service": "europepmc",
+ "endpoint": "search",
+ "params": {
+  "format": "json",
+  "pageSize": "10",
+  "query": "VAMPIRE cell morphology Phillip 2021 Nature Protocols",
+  "resultType": "lite"
+ },
+ "status": 200,
+ "content_type": "application/json;charset=UTF-8",
+ "fetched_utc": "2026-11-07T04:32:20+00:00",
+ "body": "{\"hitCount\": 4, \"resultList\": {\"result\": [{\"id\": \"PPR1218247\", \"source\": \"PPR\", \"doi\": \"10.64898/2026.03.24.713910\", \"title\": \"MORPHIS (MORPHological Interpretable Signature) captures heterogeneous treatment- and aging-related responses of single cells\", \"authorString\": \"Bohr F, Oikonomou A, Nielsen EEM, Konstantinidis G.\", \"pubYear\": \"2026\", \"isOpenAccess\": \"Y\", \"bookOrReportDetails\": {\"publisher\": \"bioRxiv\"}}, {\"id\": \"33424024\", \"source\": \"MED\", \"pmid\": \"33424024\", \"pmcid\": \"PMC8167883\", \"doi\": \"10.1038/s41596-020-00432-x\", \"title\": \"A robust unsupervised machine-learning method to quantify the morphological heterogeneity of cells and nuclei.\", \"authorString\": \"Phillip JM, Han KS, Chen WC, Wirtz D.\", \"journalTitle\": \"Nat Protoc\", \"pubYear\": \"2021\", \"isOpenAccess\": \"N\"}, {\"id\": \"PPR1260450\", \"source\": \"PPR\", \"doi\": \"10.64898/2026.06.24.732306\", \"title\": \"The Vertebrate Genomes Project Phase I: A global reference genome resource\", \"authorString\": \"Formenti G, Absolon DE, Abueg LAL, Ackerman F.\", \"pubYear\": \"2026\", \"isOpenAccess\": \"Y\", \"bookOrReportDetails\": {\"publisher\": \"bioRxiv\"}}, {\"id\": \"PMC10323075\", \"source\": \"PMC\", \"pmcid\": \"PMC10323075\", \"title\": \"Abstracts from the 2023 Annual Meeting of the Society of General Internal Medicine\", \"journalTitle\": \"J Gen Intern Med\", \"pubYear\": \"2023\", \"isOpenAccess\": \"N\"}]}}"
+}

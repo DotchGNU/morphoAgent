@@ -1,0 +1,16 @@
+{
+ "schema": "morphoagent-http-cache/1",
+ "service": "ncbi",
+ "endpoint": "esearch.fcgi",
+ "params": {
+  "db": "pubmed",
+  "retmax": "10",
+  "retmode": "json",
+  "sort": "relevance",
+  "term": "VAMPIRE cell morphology Phillip 2021 Nature Protocols"
+ },
+ "status": 200,
+ "content_type": "application/json; charset=UTF-8",
+ "fetched_utc": "2026-11-07T04:32:18+00:00",
+ "body": "{\"header\":{\"type\":\"esearch\",\"version\":\"0.3\"},\"esearchresult\":{\"count\":\"1\",\"retmax\":\"1\",\"retstart\":\"0\",\"idlist\":[\"33424024\"],\"translationset\":[{\"from\":\"VAMPIRE\",\"to\":\"\\\"legendary creatures\\\"[MeSH Terms] OR (\\\"legendary\\\"[All Fields] AND \\\"creatures\\\"[All Fields]) OR \\\"legendary creatures\\\"[All Fields] OR \\\"vampire\\\"[All Fields] OR \\\"vampires\\\"[All Fields] OR \\\"vampirism\\\"[All Fields]\"},{\"from\":\"cell morphology\",\"to\":\"\\\"cytology\\\"[Subheading] OR \\\"cytology\\\"[All Fields] OR (\\\"cell\\\"[All Fields] AND \\\"morphology\\\"[All Fields]) OR \\\"cell morphology\\\"[All Fields]\"},{\"from\":\"Phillip\",\"to\":\"\\\"phillip\\\"[All Fields] OR \\\"phillips\\\"[All Fields]\"},{\"from\":\"Nature Protocols\",\"to\":\"\\\"Nat Protoc\\\"[Journal:__jid101284307] OR (\\\"nature\\\"[All Fields] AND \\\"protocols\\\"[All Fields]) OR \\\"nature protocols\\\"[All Fields]\"}],\"querytranslation\":\"(\\\"legendary creatures\\\"[MeSH Terms] OR (\\\"legendary\\\"[All Fields] AND \\\"creatures\\\"[All Fields]) OR \\\"legendary creatures\\\"[All Fields] OR \\\"vampire\\\"[All Fields] OR \\\"vampires\\\"[All Fields] OR \\\"vampirism\\\"[All Fields]) AND (\\\"cytology\\\"[MeSH Subheading] OR \\\"cytology\\\"[All Fields] OR (\\\"cell\\\"[All Fields] AND \\\"morphology\\\"[All Fields]) OR \\\"cell morphology\\\"[All Fields]) AND (\\\"phillip\\\"[All Fields] OR \\\"phillips\\\"[All Fields]) AND \\\"2021\\\"[All Fields] AND (\\\"nat protoc\\\"[Journal] OR (\\\"nature\\\"[All Fields] AND \\\"protocols\\\"[All Fields]) OR \\\"nature protocols\\\"[All Fields])\"}}\n"
+}
